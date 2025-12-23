@@ -1,0 +1,44 @@
+Tạo thư mục keycloak-local
+Trong đó có file docker-compose.yml
+
+version: "3.9"
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: keycloak-dev
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8686:8080"
+
+Cài Docker
+Mở terminal trong thư mục keycloak-local
+Gõ lệnh docker compose up -d
+
+==========================
+Cài MySQL trên Docker
+
+Mở PowerShell
+
+docker run -d `
+  --name mysql-local `
+  -p 3306:3306 `
+  -e MYSQL_ROOT_PASSWORD='Dev!@#Junbi3306' `
+  mysql:latest
+
+
+==========================
+Lệnh kiểm tra keycloak, account có được kích hoạt đúng hay chưa
+curl -X POST http://localhost:8686/realms/demo-realm/protocol/openid-connect/token ^
+  -H "Content-Type: application/x-www-form-urlencoded" ^
+  -d "grant_type=password" ^
+  -d "client_id=demo-client" ^
+  -d "username=admin" ^
+  -d "password=admin"
+
+Nếu đúng, kết quả trả về token
+{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJidDBhNGczam1vRjcteUtOMmE1ZnVIUGhyOXd0LVJhM05WajlkQkloOGk0In0.eyJleHAiOjE3NjY1MTAyNjUsImlhdCI6MTc2NjUwOTk2NSwianRpIjoiY2FhNzY5NWItNDgzNC00YWJkLWExMmEtZGVjODU4NmNiYzk5IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4Njg2L3JlYWxtcy9kZW1vLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjBlNTRhNGRmLWE1ODYtNDg0ZS04ZWNlLWJkYTYwMmM2MDA5MyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImRlbW8tY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6ImZhMTNkMDU2LWYzZTgtNDc4Mi05ZDM0LWE5NmU4OTRiOTNjMyIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1kZW1vLXJlYWxtIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50Iiwidmlldy1ncm91cHMiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6ImZhMTNkMDU2LWYzZTgtNDc4Mi05ZDM0LWE5NmU4OTRiOTNjMyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6ImFkbWluIGFkbWluIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRtaW4iLCJnaXZlbl9uYW1lIjoiYWRtaW4iLCJmYW1pbHlfbmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkB0ZXN0LmNvbSJ9.J8azdNJ52KGUemxkga0qjG9sXBV4Jo4Y9jhpTS7-RUyA5r4XtQnZadHgDdb3sLxCqiGaS0_OIr3pueMmoAUGFQjHNVim-k5yXDtNYP9rnV7j31QUWSdhs9HnC2fRLc0e6PrDDNEl1_pz1cYS9bhK9oQH2bCjcf0cAYxypwrSOyazyVlf2NHraiN6szQ-0bpyqZrrZAxSbeTuPZjXJSFhnHFYw0mRT7dD6NDUDx8FlZcUwPU8x4DbFNjyDBJATiIFquO_NbOMPAdaw3BvUcsqrGKVVaGpFJa3lq4WqOG0sYDt7uV0Ev2E6jJ4yxMbJKCyGTGKSeBkFpdAtuGoe0qsuQ","expires_in":300,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzUxMiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJlM2E4Y2RmYS00ZTVlLTQxNmYtYjE1NS1jYWMzZTJhN2NlMjkifQ.eyJleHAiOjE3NjY1MTE3NjUsImlhdCI6MTc2NjUwOTk2NSwianRpIjoiZWIwZmZmOTctOTUyZi00ZGMxLWI4ZGYtN2YxNWYzYjRiYWRkIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4Njg2L3JlYWxtcy9kZW1vLXJlYWxtIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo4Njg2L3JlYWxtcy9kZW1vLXJlYWxtIiwic3ViIjoiMGU1NGE0ZGYtYTU4Ni00ODRlLThlY2UtYmRhNjAyYzYwMDkzIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImRlbW8tY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6ImZhMTNkMDU2LWYzZTgtNDc4Mi05ZDM0LWE5NmU4OTRiOTNjMyIsInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6ImZhMTNkMDU2LWYzZTgtNDc4Mi05ZDM0LWE5NmU4OTRiOTNjMyJ9.W3p9WK5w6PMSH1gaPNKYOkYiFED9kqxYBDkaUZlxnlE9N1U3Z6Rp40JY34Vq6I6a2JzDPypncpB0taVLZoEmyw","token_type":"Bearer","not-before-policy":0,"session_state":"fa13d056-f3e8-4782-9d34-a96e894b93c3","scope":"profile email"}
+

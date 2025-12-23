@@ -11,10 +11,10 @@ import java.util.Optional;
 public class AccountService {
 
     @Autowired
-    private AccountRepository repo;
+    private AccountRepository accountRepo;
 
     public boolean validate(String username, String password) {
-        Optional<Account> account = repo.findByUsername(username);
+        Optional<Account> account = accountRepo.findByAccUsr(username);
         if (account.isPresent()) return true;
         return false;
     }

@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/v1")
 public class AuthController {
 
     @Autowired
@@ -36,12 +36,12 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/v2/login")
+    @PostMapping("/public/login")
     public ResponseEntity<?> loginKeycloak(@RequestBody Map<String, String> body) {
         String username = body.get("username");
         String password = body.get("password");
 
-        String tokenUrl = "http://localhost:8080/realms/demo-realm/protocol/openid-connect/token";
+        String tokenUrl = "http://localhost:8686/realms/demo-realm/protocol/openid-connect/token";
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -76,7 +76,7 @@ public class AuthController {
         return sb.toString();
     }
 
-    @GetMapping("/profile")
+    @GetMapping("/public/profile")
     public Map<String, String> profile(@RequestHeader("Authorization") String auth) {
         return Map.of("message", "Access granted", "token", auth);
     }

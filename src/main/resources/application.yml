@@ -1,11 +1,11 @@
 server:
-  port: 8081
+  port: 5000
 
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/junbi_dev?createDatabaseIfNotExist=true
     username: root
-    password:
+    password: Dev!@#Junbi3306
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,9 +14,9 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/demo-realm
+          issuer-uri: http://localhost:8686/realms/demo-realm
 
 keycloak:
   realm: demo-realm
-  auth-server-url: http://localhost:8080
+  auth-server-url: http://localhost:8686
   client-id: demo-client
